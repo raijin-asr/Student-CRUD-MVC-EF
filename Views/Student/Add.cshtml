@@ -1,0 +1,31 @@
+﻿@model Student_CRUD_MVC_EF.Models.AddStudentViewModel
+
+
+<h1>Add Student</h1>
+
+<form method="post" enctype="multipart/form-data">
+    <div class="mt-4">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-control" asp-for="Name"/>
+    </div>
+
+    <div class="mt-4">
+        <label class="form-label">Email</label>
+        <input type="email" class="form-control" asp-for="Email"/>
+     </div>
+
+    <div class="mt-4">
+        <label class="form-label">Phone</label>
+        <input type="text" class="form-control" asp-for="Phone"/>
+    </div>
+
+    <div class="mt-4 form-check">
+        <input type="checkbox" class="form-check-input" id="Subscribed" asp-for="Subscribed"/>
+        <label class="form-check-label" for="Subscribed">Subscribed</label>
+    </div>
+
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-primary">Add</button>
+    </div>
+</form>
