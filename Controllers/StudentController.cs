@@ -4,14 +4,18 @@ using Student_CRUD_MVC_EF.Data;
 using Student_CRUD_MVC_EF.Models;
 using Student_CRUD_MVC_EF.Models.Entities;
 
+
 namespace Student_CRUD_MVC_EF.Controllers
 {
     public class StudentController : Controller
     {
         private readonly ApplicationDBContext dbContext;
+        private readonly IWebHostEnvironment webHostEnvironment; // Inject IWebHostEnvironment
 
-        public StudentController(ApplicationDBContext dbContext)
-        
+        public StudentController(ApplicationDBContext dbContext, IWebHostEnvironment webHostEnvironment)
+        {
+            this.dbContext = dbContext;
+            this.webHostEnvironment = webHostEnvironment; // Initialize it
 
         }
         [HttpGet]
@@ -23,11 +27,7 @@ namespace Student_CRUD_MVC_EF.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddStudentViewModel viewModel)
         {
-
-            try
-            {
-         
-
+  
                 var student = new Student
                 {
                     Name = viewModel.Name,
@@ -47,6 +47,14 @@ namespace Student_CRUD_MVC_EF.Controllers
 
             //after student is add, redirect to the read action
             return RedirectToAction("Read", "student");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Read()
+        {
+            var students= await dbContext.Students.ToListAsync();
+            return View(students);
+
         }
 
         
