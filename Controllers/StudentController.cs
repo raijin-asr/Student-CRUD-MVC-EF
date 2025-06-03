@@ -5,17 +5,16 @@ using Student_CRUD_MVC_EF.Models;
 using Student_CRUD_MVC_EF.Models.Entities;
 
 
+
 namespace Student_CRUD_MVC_EF.Controllers
 {
     public class StudentController : Controller
     {
-        private readonly ApplicationDBContext dbContext;
-        private readonly IWebHostEnvironment webHostEnvironment; // Inject IWebHostEnvironment
+      
 
         public StudentController(ApplicationDBContext dbContext, IWebHostEnvironment webHostEnvironment)
         {
             this.dbContext = dbContext;
-            this.webHostEnvironment = webHostEnvironment; // Initialize it
 
         }
         [HttpGet]
@@ -27,13 +26,16 @@ namespace Student_CRUD_MVC_EF.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddStudentViewModel viewModel)
         {
-  
+            
+
+
                 var student = new Student
                 {
                     Name = viewModel.Name,
                     Email = viewModel.Email,
                     Phone = viewModel.Phone,
                     Subscribed = viewModel.Subscribed,
+                    PhotoPath = photoPath
 
                 };
                 await dbContext.Students.AddAsync(student);
@@ -45,7 +47,7 @@ namespace Student_CRUD_MVC_EF.Controllers
                 Console.WriteLine(ex.Message);
             }
 
-            //after student is add, redirect to the read action
+            //after student is added, redirect to the read action
             return RedirectToAction("Read", "student");
         }
 
@@ -55,6 +57,30 @@ namespace Student_CRUD_MVC_EF.Controllers
             var students= await dbContext.Students.ToListAsync();
             return View(students);
 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var student = await dbContext.Students.FindAsync(id);
+            
+            return View(student);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(Student viewModel)
+        {
+            var studentToUpdate = await dbContext.Students.FindAsync(viewModel.Id);
+
+            if(studentToUpdate is not null)
+            {
+                studentToUpdate.Name = viewModel.Name;
+                studentToUpdate.Email = viewModel.Email;
+                studentToUpdate.Phone = viewModel.Phone;
+                studentToUpdate.Subscribed = viewModel.Subscribed;
+
+                await dbContext.SaveChangesAsync();
+            }
+            return RedirectToAction("Read", "student");
         }
 
         

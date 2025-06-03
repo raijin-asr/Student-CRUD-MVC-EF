@@ -7,3 +7,4 @@ CRUD operation on Student using MVC EF Core Dotnet C#
     Day 1: Create, Setup Project, Database connection
     Day 2: Implement Add operation, design
     Day 3: Implement Read operation
+    Day 4: Implement Edit Task
