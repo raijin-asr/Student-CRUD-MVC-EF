@@ -8,3 +8,4 @@ CRUD operation on Student using MVC EF Core Dotnet C#
     Day 2: Implement Add operation, design
     Day 3: Implement Read operation
     Day 4: Implement Edit Task
+    Day 5: Add photo functionality

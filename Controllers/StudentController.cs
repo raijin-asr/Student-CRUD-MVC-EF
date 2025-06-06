@@ -4,17 +4,20 @@ using Student_CRUD_MVC_EF.Data;
 using Student_CRUD_MVC_EF.Models;
 using Student_CRUD_MVC_EF.Models.Entities;
 
-
+using Microsoft.AspNetCore.Hosting; // for IWebHostEnvironment
+using System.IO; // for Path
 
 namespace Student_CRUD_MVC_EF.Controllers
 {
     public class StudentController : Controller
     {
-      
+        private readonly ApplicationDBContext dbContext;
+        private readonly IWebHostEnvironment webHostEnvironment; // Inject IWebHostEnvironment
 
         public StudentController(ApplicationDBContext dbContext, IWebHostEnvironment webHostEnvironment)
         {
             this.dbContext = dbContext;
+            this.webHostEnvironment = webHostEnvironment; // Initialize it
 
         }
         [HttpGet]
@@ -26,7 +29,22 @@ namespace Student_CRUD_MVC_EF.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(AddStudentViewModel viewModel)
         {
-            
+            string? photoPath = null;
+
+            try
+            {
+                if (viewModel.Photo != null && viewModel.Photo.Length > 0)
+                {
+                    var fileName = $"{Guid.NewGuid()}{Path.GetExtension(viewModel.Photo.FileName)}";
+                    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", fileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await viewModel.Photo.CopyToAsync(stream);
+                    }
+
+                    photoPath = $"/images/{fileName}";
+                }
 
 
                 var student = new Student
@@ -47,7 +65,7 @@ namespace Student_CRUD_MVC_EF.Controllers
                 Console.WriteLine(ex.Message);
             }
 
-            //after student is added, redirect to the read action
+            //after student is add, redirect to the read action
             return RedirectToAction("Read", "student");
         }
 
@@ -83,6 +101,6 @@ namespace Student_CRUD_MVC_EF.Controllers
             return RedirectToAction("Read", "student");
         }
 
-        
+      
     }
 }
