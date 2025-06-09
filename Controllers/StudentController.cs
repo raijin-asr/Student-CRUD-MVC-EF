@@ -101,6 +101,19 @@ namespace Student_CRUD_MVC_EF.Controllers
             return RedirectToAction("Read", "student");
         }
 
+        // delete action
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            var student = await dbContext.Students.FindAsync(id);
+            if (student is not null)
+            {
+                dbContext.Students.Remove(student);
+                await dbContext.SaveChangesAsync();
+            }
+            return RedirectToAction("Read", "student");
+        }
+
       
     }
 }
