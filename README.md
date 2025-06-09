@@ -10,3 +10,12 @@ CRUD operation on Student using MVC EF Core Dotnet C#
     Day 4: Implement Edit Task
     Day 5: Add photo functionality
     Day 6: Apply Delete action
+
+SCREENSHOTS:
+
+![student MVC   Create Operation](https://github.com/user-attachments/assets/03e8ab1a-55af-483c-88b1-7caa3edc536e)
+Fig 1: Create Operation
+
+![student MVC  Read operation](https://github.com/user-attachments/assets/a86e3743-959e-4194-995e-d5acde8eb04a)
+Fig 2: Read Operation
+
